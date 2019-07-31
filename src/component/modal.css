@@ -8,15 +8,17 @@
     
 }
 .input button{
-    margin-right: -30px;
+    float: right;
+    margin-right: 100px;
 }
 .column-name {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width:80%;
+    width:90%;
     border-radius: 0px;
     margin-left:50px;
+    border-color: black
 }
 .contact-row {
     display: flex;
@@ -26,9 +28,12 @@
     width:90%;
     margin-left:50px;
     margin-bottom:30px;
+    border-color: black
 }
 
-
+.border{
+    border:1px solid black;
+}
 
 .column-last {
     padding-left: 0px;

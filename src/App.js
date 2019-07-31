@@ -1,7 +1,7 @@
 import React from "react";
 //import logo from "./logo.svg";
 import "./App.css";
-import Contacts from './component/contact'
+import Contacts from './component/contacts'
 var contactLists = require("./contacts");
 
 function App() {

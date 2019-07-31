@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-//import Contacts from './component/contact'
+//import Contacts from './component/contacts'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

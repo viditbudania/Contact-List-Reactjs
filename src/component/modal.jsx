@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import "./modal.css";
-class modal extends Component {
-    render() {
-    console.log(this.props);
+function modal (props) {
+   
         return ( 
             <div className = "layer">
                 <div className="popup-header">
@@ -16,31 +15,31 @@ class modal extends Component {
                     </div> */}
                     <div className="element">
                     <label>First-Name</label>
-                    <input />
+                    <input name = 'first_name' onChange = {props.handleChange}/>
                     </div>
                     <div className="element">
                     <label>Last-Nmae</label>
-                    <input />
+                    <input name = 'last_name' onChange = {props.handleChange}/>
                     </div>
                     <div className="element">
                     <label>Email</label>
-                    <input />
+                    <input name = 'email' onChange = {props.handleChange}/>
                     </div>
                     <div className="element">
                     <label>Phone</label>
-                    <input />
+                    <input name = 'phone' onChange = {props.handleChange}/>
                     </div>
 
                 </div>
                 <div className="buttons">
-                    <button onClick = {this.props.add}>Submit</button>
-                    <button onClick = {this.props.popupClass}>Cancel</button>
+                    <button onClick = {props.add}>Submit</button>
+                    <button onClick = {props.popupClass}>Cancel</button>
                 </div>
                 
             </div>
             
-         );
-    }
+         )
+    
 }
  
 export default modal;

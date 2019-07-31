@@ -9,17 +9,43 @@ class Contacts extends Component {
     contactList: contactLists,
     popup: false,
     copyOfContacts: contactLists,
+    displayStyle:'none',
     contentEditable: false,
+    // form:{
+      first_name: '',
+        last_name: '',
+        email: '',
+        phone: ''
+    // }
     // suppressContentEditableWarning : true
   };
-  onEditContact = event => {
+  componentDidMount(){
+    localStorage.getItem('contact') && this.setState({
+      contactList:JSON.parse(localStorage.getItem('contact'))
+    });
+    //contactLists = JSON.parse(localStorage.getItem('contact'));
+  }
+  componentDidUpdate(){
+    localStorage.setItem('contact',JSON.stringify(this.state.contactList))
+  }
+  onEditContact = (event) => {
     //console.log("hi")
-    this.state.contentEditable
-      ? this.setState({ contentEditable: false })
-      : this.setState({ contentEditable: true });
+    // this.state.contentEditable
+    //   ? this.setState({ contentEditable: false })
+    //   : this.setState({ contentEditable: true });
+    // console.log(element)
+  
+      this.setState({
+        contentEditable: !this.state.contentEditable,
+        
+      })
+      this.state.contentEditable
+      ? this.setState({displayStyle:'none'})
+      : this.setState({displayStyle:'border'}) 
    
-    let contact = event.target.parentNode.parentNode.children;;
+    let contact = event.target.parentNode.parentNode.children;
     console.log(contact);
+    
     let addContactObj = {
         id: parseInt( contact[0].innerText),
         avatar_url: contact[1].children[0].src,
@@ -45,35 +71,40 @@ class Contacts extends Component {
     contactAfterUpdate.splice(index, 0, addContactObj);
     console.log(contactAfterUpdate);
     this.setState({ contactList: contactAfterUpdate, copyOfContacts: contactAfterUpdate });
+    
   };
   onAdd = () => {
-    let input = document.querySelectorAll(".element input");
-    console.log(input);
+    //let input = document.querySelectorAll(".element input");
+    console.log(this.state.first_name);
+    console.log(this.state.last_name);
     let addContactObj = [
       {
         id: this.state.contactList.length + 1,
-        first_name: input[0].value,
-        last_name: input[1].value,
-        email: input[2].value,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        email: this.state.email,
         avatar_url: `https://robohash.org/${
-          input[1].value
+          this.state.last_name
         }.png?size=100x100&set=set1`,
-        phone: input[3].value
+        phone: this.state.phone
       }
     ];
     let concatContact = this.state.contactList.concat(addContactObj);
     console.log(concatContact);
-    this.setState({ contactList: concatContact });
-    this.state.popup
-      ? this.setState({ popup: false })
-      : this.setState({ popup: true });
+    this.setState({ contactList: concatContact , copyOfContacts:concatContact});
+    // this.state.popup
+    //   ? this.setState({ popup: false })
+    //   : this.setState({ popup: true });
+      this.setState({
+        popup : !this.state.popup
+      })
   };
   onDeleteContact = contact => {
      console.log(contact);
     let contactLi = this.state.contactList.filter(val => {
       return val["id"] !== contact["id"];
     });
-    this.setState({ contactList: contactLi });
+    this.setState({ contactList: contactLi ,copyOfContacts:contactLi});
   };
   onSearch = event => {
     let searchText = event.target.value;
@@ -81,23 +112,45 @@ class Contacts extends Component {
       return (
         contacts["first_name"].toLowerCase().includes(searchText) ||
         contacts["first_name"].toUpperCase().includes(searchText) ||
+        contacts["last_name"].toLowerCase().includes(searchText) ||
+        contacts["last_name"].toUpperCase().includes(searchText) ||
+        contacts["email"].includes(searchText) ||
+        contacts["email"].toUpperCase().includes(searchText) ||        
         contacts["phone"].includes(searchText)
       );
     });
     console.log(searchContact);
     this.setState({ contactList: searchContact });
   };
+  // changePopupClass = () => {
+  //   this.state.popup
+  //     ? this.setState({ popup: false })
+  //     : this.setState({ popup: true });
+  // };
   changePopupClass = () => {
-    this.state.popup
-      ? this.setState({ popup: false })
-      : this.setState({ popup: true });
+    this.setState({
+      popup : !this.state.popup
+    })
   };
+
+  handleChange = (event) => {
+    console.log(event.target);
+    
+this.setState({
+  [event.target.name] : event.target.value,
+
+})
+console.log(this.state)
+  }
  
   render() {
+    // let displayStyle = {
+    //   border : "none"
+    // }
     return (
       <div>
         {this.state.popup && (
-          <Popup add={this.onAdd} popupClass={this.changePopupClass} />
+          <Popup add={this.onAdd} popupClass={this.changePopupClass} handleChange={this.handleChange} />
         )}
         <div>
         <div className="input">
@@ -135,20 +188,20 @@ class Contacts extends Component {
               <div>
                 <img src={contact["avatar_url"]} alt=""/>
               </div>
-              <div contentEditable={this.state.contentEditable} >
+              <div contentEditable={this.state.contentEditable} className={this.state.displayStyle}>
                 {contact["first_name"]}
               </div>
-              <div contentEditable={this.state.contentEditable}>
+              <div contentEditable={this.state.contentEditable} className={this.state.displayStyle}>
                 {contact["last_name"]}
               </div>
-              <div contentEditable={this.state.contentEditable}>
+              <div contentEditable={this.state.contentEditable} className={this.state.displayStyle}>
                 {contact["email"]}
               </div>
-              <div contentEditable={this.state.contentEditable}>
+              <div contentEditable={this.state.contentEditable} className={this.state.displayStyle}>
                 {contact["phone"]}
               </div>
               <div>
-                <button onClick={this.onEditContact}>
+                <button onClick={(event)=>{this.onEditContact(event)}}>
                   edit
                 </button>
                 <button className="contact-remove"
