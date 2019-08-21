@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import "./modal.css";
-function modal (props) {
+import "./Modal.css";
+function Modal (props) {
    
         return ( 
             <div className = "layer">
@@ -42,4 +42,4 @@ function modal (props) {
     
 }
  
-export default modal;
+export default Modal;

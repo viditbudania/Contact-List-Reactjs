@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Popup from "./modal";
-import "./modal.css";
+import Popup from "./Modal";
+import "./Modal.css";
 //import src from "*.png";
 var contactLists = require("../contacts");
 
